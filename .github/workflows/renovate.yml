@@ -33,11 +33,6 @@ jobs:
   renovate:
     runs-on: ubuntu-latest
     steps:
-      - name: Get token
-        id: get_token
-        uses: tibdex/github-app-token@v1
-        with:
-          token: ${{ secrets.RENOVATE_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set environment
@@ -49,7 +44,7 @@ jobs:
         # https://github.com/renovatebot/github-action/releases
         uses: renovatebot/github-action@v39.0.5
         with:
-          token: '${{ steps.get_token.outputs.token }}'
+          token: ${{ secrets.RENOVATE_TOKEN }}
           # https://github.com/renovatebot/renovate/releases
           renovate-version: 37.25.0-full
           configurationFile: renovate.json5
