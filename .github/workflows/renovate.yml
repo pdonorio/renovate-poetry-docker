@@ -1,0 +1,56 @@
+name: "Execute Renovate Bot"
+on:
+  workflow_dispatch:
+    inputs:
+      log_level:
+        type: choice
+        description: "Log level"
+        required: true
+        default: "info"
+        options:
+          - "info"
+          - "debug"
+      dry_run:
+        type: choice
+        description: "Execute Renovate in dry run mode"
+        required: false
+        default: "unset"
+        options:
+          - unset
+          - extract
+          - lookup
+          - full
+  schedule:
+    - cron: '0 * * * *'
+concurrency:
+  group: execute-renovate-bot
+  cancel-in-progress: true
+
+env:
+  LOG_LEVEL: "${{ github.event.inputs.log_level || 'info' }}"
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get token
+        id: get_token
+        uses: tibdex/github-app-token@v1
+        with:
+          private_key: ${{ secrets.RENOVATE_APP_PRIVATE_KEY }}
+          app_id: ${{ secrets.RENOVATE_APP_ID }}
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set environment
+        if: ${{ github.event.inputs.dry_run != 'unset' }}
+        run: |
+            echo "RENOVATE_DRY_RUN=${{ github.event.inputs.dry_run }}" | tee -a $GITHUB_ENV
+      - name: Self-hosted Renovate
+        # NOTE: the github action has a different release than the actual app
+        # https://github.com/renovatebot/github-action/releases
+        uses: renovatebot/github-action@v39.0.5
+        with:
+          token: '${{ steps.get_token.outputs.token }}'
+          # https://github.com/renovatebot/renovate/releases
+          renovate-version: 37.25.0-full
+          configurationFile: renovate.json5
