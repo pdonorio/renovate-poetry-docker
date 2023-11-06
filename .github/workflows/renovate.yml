@@ -20,8 +20,8 @@ on:
           - extract
           - lookup
           - full
-  schedule:
-    - cron: '0 * * * *'
+  # schedule:
+  #   - cron: '0 * * * *'
 concurrency:
   group: execute-renovate-bot
   cancel-in-progress: true
@@ -37,8 +37,7 @@ jobs:
         id: get_token
         uses: tibdex/github-app-token@v1
         with:
-          private_key: ${{ secrets.RENOVATE_APP_PRIVATE_KEY }}
-          app_id: ${{ secrets.RENOVATE_APP_ID }}
+          token: ${{ secrets.RENOVATE_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set environment
