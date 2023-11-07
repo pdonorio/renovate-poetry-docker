@@ -42,7 +42,7 @@ jobs:
       - name: Self-hosted Renovate
         # NOTE: the github action has a different release than the actual app
         # https://github.com/renovatebot/github-action/releases
-        uses: renovatebot/github-action@v39.0.5
+        uses: renovatebot/github-action@v39.1.1
         with:
           token: ${{ secrets.RENOVATE_TOKEN }}
           # https://github.com/renovatebot/renovate/releases
