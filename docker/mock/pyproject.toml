@@ -7,7 +7,7 @@ authors = ["test <dev@test.co>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pytest-playwright = "^0.3.3"
+pytest-playwright = "^0.4.0"
 python-dateutil = "^2.8.2"
 dataclass-wizard = "^0.22.1"
 pytest-asyncio = "^0.21.0"
