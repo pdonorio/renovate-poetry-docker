@@ -8,7 +8,7 @@ WORKDIR /code
 
 FROM base as venv
 
-ENV POETRY_VERSION=1.6.1
+ENV POETRY_VERSION=1.7.0
 
 RUN pip3 install poetry==${POETRY_VERSION}
 
