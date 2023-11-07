@@ -1,55 +1,28 @@
 {
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-  extends: [
-    'config:recommended',
-    ':combinePatchMinorReleases',
-  ],
   username: 'renovate-github-actions[bot]',
   gitAuthor: 'renovate-github-actions[bot] <135154770+renovate-github-actions[bot]@users.noreply.github.com>',
   onboarding: false,
-  requireConfig: 'optional',
   platform: 'github',
   repositories: [
     'pdonorio/renovate-poetry-docker'
   ],
-  labels: [
-    'dependencies',
-  ],
-  commitBodyTable: true,
-  configMigration: true,
-  platformCommit: true,
-  rebaseWhen: 'conflict',
   poetry: {
     // rollbackPr breaks updates for poetry
     // https://github.com/renovatebot/renovate/issues/17374
     rollbackPrs: false,
   },
-  packageRules: [
-    // Commit message overrides
-    // See https://github.com/renovatebot/renovate/discussions/13792
-    {
-      matchDatasources: [
-        'docker',
-        'helm',
-        'terraform',
-      ],
-      commitMessageTopic: '{{depName}}',
-      commitMessageExtra: 'to {{newVersion}}',
-    },
-  ],
   customManagers: [
-    // Manage custom lib version inside Dockerfiles,
     {
       customType: 'regex',
       datasourceTemplate: 'pypi',
       depNameTemplate: 'poetry',
       fileMatch: [
-        '^qa/infra/.*/Dockerfile$',
+        '^docker/.*/Dockerfile$',
       ],
       matchStrings: [
         'ENV POETRY_VERSION=(?<currentValue>.*?)\\n',
       ],
     },
   ],
-
 }
