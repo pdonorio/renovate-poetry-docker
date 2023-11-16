@@ -1,6 +1,6 @@
-; this is a test with comment
+# this is a git comment
 
-<!-- this is another test with comment -->
+<!-- this is another test with github comment -->
 
 ## description
 
